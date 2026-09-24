@@ -1,4 +1,4 @@
-# Canteen — Project Context
+# NexKitchen — Project Context
 
 Context for any agent or teammate joining this project. Read fully before changing code.
 
@@ -39,17 +39,17 @@ Considered but **dropped** for time: bell-synced cooking (kitchen cooks backward
 | Design | **Mobile-first, bold retro fast-food brand** — reference board in `img/`. Cream ground `#f6efdc`, chocolate brown ink `#4a1c13`, red `#e4032e` (CTAs, late), amber `#ffa200` (ready), blue `#0a57a6` (info). Fredoka (display/numbers) + Outfit (body). Big rounded colour blocks, wavy squiggle pattern (`Squiggle`). No emoji, glassmorphism or generic AI-template look. Tailwind `neutral-*` and `white` are remapped to the brown/cream scale in `src/index.css`. |
 | Stack | React + Vite + Tailwind v4 + react-router-dom |
 | Data | All data access goes through `src/data.js`. Runs on `localStorage` (+ cross-tab sync) now so the demo works offline; Firebase to be plugged in later by the backend teammate. Schema/contract **still to be agreed**. |
-| App name | Placeholder "Canteen" in `src/config.js` — final name TBD |
+| App name | **NexKitchen** (`APP_NAME` in `src/config.js`; wordmark in `components/Logo.jsx`) |
 | Repo | https://github.com/jj-jashnjoshi/Prompt2Web_Nexora (local: `~/canteen`) |
 
 ## Screens
 
-4 student pages with a bottom tab bar (Menu · Cart · Orders). No login — student types their name once at checkout.
+4 student pages, always reachable from a floating pill tab bar (Home · Menu · Cart · Orders). No login — student types their name once at checkout. Judges weigh **creativity** most, so pages lean on the brand: colour-block cards, scalloped Cloud badges, food illustrations, marquee bands, playful motion.
 
-- `/` — Landing: shown on first visit only, then redirects to `/menu`
-- `/menu` — Menu: "Your usual" one-tap reorder, live kitchen strip, category tabs, items sorted fastest-first with live ETA / "Ready now"
-- `/cart` — Cart: swap suggestions, name field, one-tap Pay → "Paid ✓" → `/orders`
-- `/orders` — My Orders: active tokens with live status (amber card when ready, dot on the tab), past orders with "Again"
+- `/` — Home: red hero, "Start my order", live "ready now" marquee, rush meter, how-it-works cards
+- `/menu` — Menu: live "ready now" marquee, "Your usual" reorder, rush meter, sticky category tabs, 2-col colour cards (red meals / amber snacks / blue drinks) sorted fastest-first with READY NOW cloud stickers
+- `/cart` — Your tray: ready-in vs bell card, amber swap card per late item, name + Pay bar → red Paid screen with cloud token → `/orders`
+- `/orders` — Your orders: blue card with cloud token + live progress; turns amber with an "It's ready" marquee when ready (red dot on tab); past orders with "Again"
 - `/kitchen` — Hidden staff/demo view (not linked): advance order status, toggle out-of-stock, demo controls (simulate rush, set break time left)
 
 ## Demo script (~90s)
@@ -80,7 +80,7 @@ Considered but **dropped** for time: bell-synced cooking (kitchen cooks backward
 - `src/data.js` — the only data layer (localStorage + BroadcastChannel sync). Replace internals with Firebase here.
 - `src/eta.js` — rush-aware logic: `stationLoads`, `itemEta`, `suggestSwap`
 - `src/useStore.js` — React hook exposing state + derived `loads`, `minsLeft`, `cartCount`
-- `src/pages/` — `Landing`, `Menu`, `Cart`, `Orders`, `Kitchen`
-- `src/components/` — `Header`, `Qty`, `Eta`, `KitchenPulse` (live per-station wait strip), `Layout` (header + tab bar shell), `TabBar`, `Squiggle` (brand pattern)
+- `src/pages/` — `Home`, `Menu`, `Cart`, `Orders`, `Kitchen`
+- `src/components/` — `Header`, `Qty`, `KitchenPulse` (live per-station wait strip), `Layout` (header + tab bar shell), `TabBar`, `Squiggle` (brand pattern), `Cloud` (scalloped badge), `FoodIcon` (SVG food art per item id), `Marquee`, `Logo`
 
-Run: `npm run dev` → student app at `/`, staff at `/kitchen`. "Reset everything" on `/kitchen` also re-shows the landing page (open in two tabs).
+Run: `npm run dev` → student app at `/`, staff at `/kitchen`. (open in two tabs).

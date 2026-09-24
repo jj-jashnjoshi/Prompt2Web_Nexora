@@ -16,7 +16,6 @@ function initial() {
     nextToken: 1,
     breakEndsAt: Date.now() + DEFAULT_BREAK_MINS * 60000,
     name: '',
-    seenIntro: false,
   }
 }
 
@@ -63,10 +62,6 @@ export function swapItem(fromId, toId) {
   delete cart[fromId]
   cart[toId] = (cart[toId] || 0) + qty
   write({ ...state, cart })
-}
-
-export function markIntroSeen() {
-  write({ ...state, seenIntro: true })
 }
 
 // Orders
