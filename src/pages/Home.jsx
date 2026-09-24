@@ -25,7 +25,7 @@ export default function Home() {
         <Squiggle className="text-white/10" />
         <p className="relative text-xs font-semibold uppercase tracking-[0.2em] text-amber">Campus canteen, minus the queue</p>
         <h1 className="relative mt-3 font-display text-[clamp(2.6rem,13vw,4.5rem)] font-bold leading-[0.9] tracking-tight">
-          Skip<br />the <span className="outline-text">line.</span><br />Not lunch.
+          Grab<br />your meal<br /><span className="outline-text">fatafat.</span>
         </h1>
         <FoodIcon id="fries" className="absolute right-3 bottom-6 size-20 sm:size-28 animate-float" />
         <FoodIcon id="cold-coffee" className="absolute right-20 sm:right-28 bottom-3 size-12 sm:size-16 animate-float [animation-delay:-2s]" />
