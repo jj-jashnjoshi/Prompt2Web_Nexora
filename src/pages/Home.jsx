@@ -3,7 +3,7 @@ import { useStore } from '../useStore'
 import { itemEta, isReadyNow } from '../eta'
 import Layout from '../components/Layout'
 import KitchenPulse from '../components/KitchenPulse'
-import Halftone from '../components/Halftone'
+import Pattern from '../components/Pattern'
 import Cloud from '../components/Cloud'
 import Marquee from '../components/Marquee'
 import FoodIcon from '../components/FoodIcon'
@@ -22,10 +22,10 @@ export default function Home() {
     <Layout s={s}>
       {/* Hero */}
       <section className="relative mt-2 overflow-hidden rounded-[2.25rem] bg-red px-6 pt-10 pb-24 text-white animate-rise ink ink-shadow">
-        <Halftone className="text-white/50" />
+        <Pattern wave="text-white/10" />
         <p className="relative text-xs font-semibold uppercase tracking-[0.2em] text-amber">Campus canteen, minus the queue</p>
         <h1 className="relative mt-3 font-display text-[clamp(2.6rem,13vw,4.5rem)] font-bold leading-[0.9] tracking-tight">
-          Grab<br />Your Meal<br /><span className="outline-text">Fatafat!</span>
+          Grab<br />Your Meal<br /><span className="text-amber">Fatafat!</span>
         </h1>
         <FoodIcon id="fries" className="absolute right-3 bottom-6 size-20 sm:size-28 animate-float" />
         <FoodIcon id="cold-coffee" className="absolute right-20 sm:right-28 bottom-3 size-12 sm:size-16 animate-float [animation-delay:-2s]" />
@@ -61,7 +61,7 @@ export default function Home() {
             style={{ animationDelay: `${150 + i * 90}ms` }}
             className={`relative shrink-0 w-[70%] md:w-1/3 snap-start rounded-[2rem] p-5 animate-rise ink ink-shadow ${color}`}
           >
-            <Halftone className="opacity-30" />
+            <Pattern blue={color.includes('bg-blue')} />
             <Cloud className="relative size-12" fill="fill-white" stroke="stroke-neutral-900" bumps={9}>
               <span className="font-display text-xl font-bold text-neutral-900">{i + 1}</span>
             </Cloud>

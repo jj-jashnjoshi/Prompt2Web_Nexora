@@ -11,7 +11,7 @@ import FoodIcon from '../components/FoodIcon'
 import FoodPhoto from '../components/FoodPhoto'
 import Marquee from '../components/Marquee'
 import Cloud from '../components/Cloud'
-import Halftone from '../components/Halftone'
+import Pattern from '../components/Pattern'
 
 const CARD = {
   meal: 'bg-red text-white',
@@ -27,7 +27,7 @@ function ItemCard({ m, qty, minsLeft, i }) {
       style={{ animationDelay: `${i * 45}ms` }}
       className={`relative min-w-0 rounded-[1.75rem] p-2 sm:p-2.5 flex flex-col animate-rise ink ink-shadow ${CARD[m.category]} ${m.inStock ? '' : 'grayscale opacity-60'}`}
     >
-      <Halftone className="opacity-30" />
+      <Pattern blue={m.category === 'drink'} />
       <div className="relative">
         <FoodPhoto id={m.id} name={m.name} className="block w-full aspect-[4/3] rounded-[1.25rem] ink" />
         {m.inStock && (

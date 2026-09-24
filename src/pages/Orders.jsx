@@ -3,7 +3,7 @@ import { useStore } from '../useStore'
 import { STATUSES, reorder } from '../data'
 import { itemEta } from '../eta'
 import Layout from '../components/Layout'
-import Halftone from '../components/Halftone'
+import Pattern from '../components/Pattern'
 import Cloud from '../components/Cloud'
 import Marquee from '../components/Marquee'
 import FoodIcon from '../components/FoodIcon'
@@ -20,7 +20,7 @@ function ActiveOrder({ order, loads }) {
     <li className={`relative overflow-hidden rounded-[2.25rem] animate-rise ink ink-shadow ${ready ? 'bg-amber' : 'bg-blue text-white'}`}>
       {ready && <Marquee items={["It's ready", 'Go grab it', 'Show your token']} className="bg-red text-white" />}
       <div className="relative p-5 sm:p-6">
-        <Halftone className={ready ? 'text-white/45' : 'text-white/50'} />
+        <Pattern blue={!ready} wave="text-white/25" />
         <div className="relative flex items-center gap-4 sm:gap-5">
           <Cloud className={`size-24 sm:size-32 shrink-0 ${ready ? 'animate-wiggle' : ''}`} fill={ready ? 'fill-red' : 'fill-white'} stroke="stroke-neutral-900" bumps={12}>
             <p className={`text-[10px] font-bold uppercase tracking-widest ${ready ? 'text-white/80' : 'text-neutral-500'}`}>Token</p>

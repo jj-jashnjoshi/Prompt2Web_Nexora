@@ -6,7 +6,7 @@ import { itemEta, suggestSwap } from '../eta'
 import { STATIONS } from '../config'
 import Layout from '../components/Layout'
 import Qty from '../components/Qty'
-import Halftone from '../components/Halftone'
+import Pattern from '../components/Pattern'
 import Cloud from '../components/Cloud'
 import FoodIcon from '../components/FoodIcon'
 import FoodPhoto from '../components/FoodPhoto'
@@ -42,7 +42,7 @@ export default function Cart() {
   if (paid) {
     return (
       <div className="relative min-h-dvh overflow-hidden bg-red text-white flex flex-col items-center justify-center px-5 text-center">
-        <Halftone className="text-white/50" />
+        <Pattern wave="text-white/10" />
         <p className="relative font-display text-lg font-bold uppercase tracking-widest text-amber animate-rise">Paid ₹{paid.total}</p>
         <Cloud className="relative mt-6 size-64 animate-pop" fill="fill-white" stroke="stroke-neutral-900" bumps={14}>
           <p className="text-xs font-bold uppercase tracking-widest text-neutral-500">Your token</p>
@@ -92,7 +92,7 @@ export default function Cart() {
       <h1 className="mt-6 font-display text-4xl font-bold tracking-tight animate-rise">Your tray</h1>
 
       <div className={`relative mt-4 overflow-hidden rounded-[2rem] p-5 text-white animate-rise ink ink-shadow ${makesBell ? 'bg-blue' : 'bg-red'}`}>
-        <Halftone className="opacity-30" />
+        <Pattern blue={makesBell} />
         <p className="relative text-xs font-bold uppercase tracking-widest opacity-80">{makesBell ? 'Ready before the bell' : 'Cutting it close'}</p>
         <p className="relative mt-1 font-display text-5xl font-bold leading-none">~{readyIn}<span className="text-2xl"> min</span></p>
         <p className="relative mt-1 text-sm opacity-85">Bell rings in {s.minsLeft} min</p>
@@ -114,7 +114,7 @@ export default function Cart() {
 
             {l.eta > s.minsLeft && (
               <div className="relative mt-3 overflow-hidden rounded-3xl bg-amber p-4 text-neutral-900 ink">
-                <Halftone className="text-white/50" />
+                <Pattern wave="text-white/30" />
                 <p className="relative text-sm">
                   <span className="font-bold">{STATIONS[l.station].label} is jammed.</span> This lands after the bell.
                 </p>
