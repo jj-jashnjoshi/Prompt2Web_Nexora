@@ -17,15 +17,15 @@ export default function KitchenPulse({ loads, minsLeft }) {
           <span className="size-2 rounded-full bg-red animate-pulse" /> LIVE
         </span>
       </div>
-      <ul className="mt-3 grid grid-cols-4 gap-2">
+      <ul className="mt-3 grid grid-cols-4 gap-1.5 sm:gap-2">
         {Object.entries(STATIONS).map(([id, st]) => {
           const wait = Math.ceil(loads[id])
           const lv = level(wait, minsLeft)
           return (
             <li key={id} className={`relative overflow-hidden rounded-3xl px-2 py-3 text-center transition-colors duration-500 ${lv.bg}`}>
               <Squiggle className="opacity-15" />
-              <p className="relative text-[11px] font-semibold uppercase tracking-wide opacity-80">{st.label}</p>
-              <p key={wait} className="relative mt-1 font-display text-3xl font-bold leading-none animate-pop">
+              <p className="relative truncate text-[10px] sm:text-[11px] font-semibold uppercase sm:tracking-wide opacity-80">{st.label}</p>
+              <p key={wait} className="relative mt-1 font-display text-2xl sm:text-3xl font-bold leading-none animate-pop">
                 {wait}<span className="text-sm">m</span>
               </p>
               <p className="relative mt-1 text-[11px] font-semibold">{lv.label}</p>

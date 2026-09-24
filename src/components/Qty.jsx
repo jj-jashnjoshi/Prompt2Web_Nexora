@@ -1,5 +1,5 @@
 // Add button that becomes a − qty + stepper. `tone` = 'dark' on cream, 'light' on coloured cards.
-export default function Qty({ qty, onChange, tone = 'dark' }) {
+export default function Qty({ qty, onChange, tone = 'dark', compact = false }) {
   const solid = tone === 'dark' ? 'bg-neutral-900 text-white' : 'bg-white text-neutral-900'
   if (!qty) {
     return (
@@ -14,9 +14,9 @@ export default function Qty({ qty, onChange, tone = 'dark' }) {
   }
   return (
     <div className={`h-10 flex items-center rounded-full font-semibold animate-pop ${solid}`}>
-      <button onClick={() => onChange(qty - 1)} className="w-9 h-10 text-lg" aria-label="Decrease">−</button>
+      <button onClick={() => onChange(qty - 1)} className={`${compact ? 'w-7' : 'w-9'} h-10 text-lg`} aria-label="Decrease">−</button>
       <span key={qty} className="w-5 text-center font-mono animate-pop">{qty}</span>
-      <button onClick={() => onChange(qty + 1)} className="w-9 h-10 text-lg" aria-label="Increase">+</button>
+      <button onClick={() => onChange(qty + 1)} className={`${compact ? 'w-7' : 'w-9'} h-10 text-lg`} aria-label="Increase">+</button>
     </div>
   )
 }

@@ -1,21 +1,28 @@
-// Single data layer. Components never touch storage directly.
-// Currently localStorage + cross-tab sync; swap internals for Firebase later
-// without changing these function signatures.
+// Single data layer ("backend") — components never touch storage directly.
+// Temporary: localStorage + cross-tab sync, pre-filled with a demo queue and driven by the
+// auto kitchen in kitchenSim.js. Swap internals for Firebase later without changing these signatures.
 import { MENU } from './menu'
 import { DEFAULT_BREAK_MINS } from './config'
+import { seedOrders, SEED_NEXT_TOKEN, makeOrder, line } from './seed'
+import { kitchenStep, cookMs } from './kitchenSim'
 
-const KEY = 'canteen:v1'
+const KEY = 'nexkitchen:v2'
+const LOCK = 'nexkitchen:tick'
+const TICK_MS = 2000
 const channel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel(KEY) : null
 const listeners = new Set()
 
 function initial() {
+  const now = Date.now()
   return {
     menu: MENU.map((m) => ({ ...m, inStock: true })),
-    orders: [],
+    orders: seedOrders(now),
     cart: {},
-    nextToken: 1,
-    breakEndsAt: Date.now() + DEFAULT_BREAK_MINS * 60000,
+    nextToken: SEED_NEXT_TOKEN,
+    breakEndsAt: now + DEFAULT_BREAK_MINS * 60000,
     name: '',
+    autoKitchen: true,
+    nextSpawnAt: now + 8000,
   }
 }
 
@@ -49,6 +56,20 @@ export function subscribe(fn) {
   return () => listeners.delete(fn)
 }
 
+// Auto kitchen heartbeat. With several tabs open, a shared lock makes only one tab step per tick.
+function tick() {
+  const now = Date.now()
+  try {
+    if (now - Number(localStorage.getItem(LOCK) || 0) < TICK_MS * 0.8) return
+    localStorage.setItem(LOCK, String(now))
+  } catch {}
+  const fresh = read()
+  if (!fresh.autoKitchen) return
+  const next = kitchenStep(fresh, now)
+  if (JSON.stringify(next) !== JSON.stringify(fresh)) write(next)
+}
+typeof window !== 'undefined' && setInterval(tick, TICK_MS)
+
 // Cart
 export function setQty(itemId, qty) {
   const cart = { ...state.cart }
@@ -76,30 +97,26 @@ export function reorder(order) {
 }
 
 export function placeOrder(name = '') {
-  const items = Object.entries(state.cart).map(([id, qty]) => {
-    const m = state.menu.find((x) => x.id === id)
-    return { id, name: m.name, price: m.price, station: m.station, prepMins: m.prepMins, qty }
-  })
+  const items = Object.entries(state.cart).map(([id, qty]) => line(id, qty))
   if (!items.length) return null
-  const order = {
-    id: crypto.randomUUID(),
-    token: 'A-' + String(state.nextToken).padStart(3, '0'),
-    items,
-    total: items.reduce((s, i) => s + i.price * i.qty, 0),
-    name: name.trim(),
-    status: 'placed',
-    createdAt: Date.now(),
-  }
+  const order = makeOrder({ token: state.nextToken, items, name: name.trim(), simulated: false })
   write({ ...state, orders: [...state.orders, order], cart: {}, name: name.trim(), nextToken: state.nextToken + 1 })
   return order
 }
 
 export const STATUSES = ['placed', 'preparing', 'ready', 'collected']
 export function advanceOrder(id) {
+  const now = Date.now()
   const orders = state.orders.map((o) => {
     if (o.id !== id) return o
-    const i = STATUSES.indexOf(o.status)
-    return { ...o, status: STATUSES[Math.min(i + 1, STATUSES.length - 1)] }
+    const status = STATUSES[Math.min(STATUSES.indexOf(o.status) + 1, STATUSES.length - 1)]
+    return {
+      ...o,
+      status,
+      ...(status === 'preparing' && { doneAt: now + cookMs(o) }),
+      ...(status === 'ready' && { pickupBy: now + 12000 }),
+      ...(status === 'collected' && { collectedAt: now }),
+    }
   })
   write({ ...state, orders })
 }
@@ -111,21 +128,16 @@ export function toggleStock(itemId) {
 export function setBreakMinsLeft(mins) {
   write({ ...state, breakEndsAt: Date.now() + mins * 60000 })
 }
+export function setAutoKitchen(on) {
+  write({ ...state, autoKitchen: on })
+}
 export function simulateRush(station, count = 5) {
-  const pool = state.menu.filter((m) => m.station === station)
+  const pool = state.menu.filter((m) => m.station === station && m.inStock)
+  if (!pool.length) return
   const orders = [...state.orders]
   let next = state.nextToken
   for (let n = 0; n < count; n++) {
-    const m = pool[n % pool.length]
-    orders.push({
-      id: crypto.randomUUID(),
-      token: 'A-' + String(next++).padStart(3, '0'),
-      items: [{ id: m.id, name: m.name, price: m.price, station: m.station, prepMins: m.prepMins, qty: 1 }],
-      total: m.price,
-      status: 'placed',
-      createdAt: Date.now(),
-      simulated: true,
-    })
+    orders.push(makeOrder({ token: next++, items: [line(pool[n % pool.length].id)] }))
   }
   write({ ...state, orders, nextToken: next })
 }

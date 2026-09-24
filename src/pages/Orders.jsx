@@ -18,12 +18,12 @@ function ActiveOrder({ order, loads }) {
   return (
     <li className={`relative overflow-hidden rounded-[2.25rem] animate-rise ${ready ? 'bg-amber' : 'bg-blue text-white'}`}>
       {ready && <Marquee items={["It's ready", 'Go grab it', 'Show your token']} className="bg-red text-white" />}
-      <div className="relative p-6">
+      <div className="relative p-5 sm:p-6">
         <Squiggle className={ready ? 'text-white/25' : 'text-white/10'} />
-        <div className="relative flex items-center gap-5">
-          <Cloud className={`size-32 shrink-0 ${ready ? 'animate-wiggle' : ''}`} fill={ready ? 'fill-red' : 'fill-white'} bumps={12}>
+        <div className="relative flex items-center gap-4 sm:gap-5">
+          <Cloud className={`size-24 sm:size-32 shrink-0 ${ready ? 'animate-wiggle' : ''}`} fill={ready ? 'fill-red' : 'fill-white'} bumps={12}>
             <p className={`text-[10px] font-bold uppercase tracking-widest ${ready ? 'text-white/80' : 'text-neutral-500'}`}>Token</p>
-            <p className={`font-display text-3xl font-bold leading-none ${ready ? 'text-white' : 'text-neutral-900'}`}>{order.token}</p>
+            <p className={`font-display text-2xl sm:text-3xl font-bold leading-none ${ready ? 'text-white' : 'text-neutral-900'}`}>{order.token}</p>
           </Cloud>
           <div>
             {ready ? (
@@ -31,7 +31,7 @@ function ActiveOrder({ order, loads }) {
             ) : (
               <>
                 <p className="text-xs font-bold uppercase tracking-widest opacity-80">{LABELS[order.status]}</p>
-                <p className="font-display text-5xl font-bold leading-none">~{eta}<span className="text-xl"> min</span></p>
+                <p className="font-display text-4xl sm:text-5xl font-bold leading-none">~{eta}<span className="text-xl"> min</span></p>
               </>
             )}
             {order.name && <p className="mt-2 text-sm opacity-80">for {order.name}</p>}

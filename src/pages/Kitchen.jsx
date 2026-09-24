@@ -1,6 +1,6 @@
 import { useStore } from '../useStore'
-import { advanceOrder, toggleStock, simulateRush, setBreakMinsLeft, resetAll } from '../data'
-import { STATIONS, APP_NAME } from '../config'
+import { advanceOrder, toggleStock, simulateRush, setBreakMinsLeft, setAutoKitchen, resetAll } from '../data'
+import { STATIONS } from '../config'
 
 const NEXT = { placed: 'Start', preparing: 'Mark ready', ready: 'Collected' }
 
@@ -35,7 +35,7 @@ export default function Kitchen() {
             {active.map((o) => (
               <li key={o.id} className={`rounded-xl border p-4 ${o.status === 'ready' ? 'border-accent' : 'border-neutral-100'}`}>
                 <div className="flex items-baseline justify-between">
-                  <span className="font-mono text-lg">{o.token}</span>
+                  <span className="font-mono text-lg">{o.token} <span className="text-sm font-normal text-neutral-500">{o.name || "campus"}</span></span>
                   <span className="text-xs text-neutral-500 capitalize">{o.status}</span>
                 </div>
                 <ul className="mt-2 text-sm text-neutral-600">
@@ -66,6 +66,16 @@ export default function Kitchen() {
 
           <div>
             <h2 className="text-sm text-neutral-500">Demo controls</h2>
+            <button
+              onClick={() => setAutoKitchen(!s.autoKitchen)}
+              className={`mt-3 w-full h-11 px-4 rounded-full flex items-center justify-between text-sm font-semibold ${s.autoKitchen ? 'bg-blue text-white' : 'bg-neutral-100 text-neutral-700'}`}
+            >
+              Auto kitchen
+              <span className={`h-6 w-11 rounded-full p-0.5 transition-colors ${s.autoKitchen ? 'bg-amber' : 'bg-neutral-300'}`}>
+                <span className={`block size-5 rounded-full bg-white transition-transform ${s.autoKitchen ? 'translate-x-5' : ''}`} />
+              </span>
+            </button>
+            <p className="mt-1.5 text-xs text-neutral-500">Cooks the queue by itself and adds campus orders. Turn off to control every step by hand.</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {Object.entries(STATIONS).map(([id, st]) => (
                 <button key={id} onClick={() => simulateRush(id)} className="h-8 px-3 rounded-full bg-neutral-100 text-xs">
@@ -80,7 +90,7 @@ export default function Kitchen() {
                 </button>
               ))}
             </div>
-            <button onClick={resetAll} className="mt-3 text-xs text-neutral-500 underline underline-offset-4">Reset everything</button>
+            <button onClick={resetAll} className="mt-3 text-xs text-neutral-500 underline underline-offset-4">Reset demo queue</button>
           </div>
         </aside>
       </main>

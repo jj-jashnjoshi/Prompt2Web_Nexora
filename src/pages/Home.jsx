@@ -24,12 +24,12 @@ export default function Home() {
       <section className="relative mt-2 overflow-hidden rounded-[2.25rem] bg-red px-6 pt-10 pb-24 text-white animate-rise">
         <Squiggle className="text-white/10" />
         <p className="relative text-xs font-semibold uppercase tracking-[0.2em] text-amber">Campus canteen, minus the queue</p>
-        <h1 className="relative mt-3 font-display text-[3.4rem] font-bold leading-[0.9] tracking-tight">
+        <h1 className="relative mt-3 font-display text-[clamp(2.6rem,13vw,4.5rem)] font-bold leading-[0.9] tracking-tight">
           Skip<br />the <span className="outline-text">line.</span><br />Not lunch.
         </h1>
-        <FoodIcon id="fries" className="absolute right-3 bottom-6 size-24 animate-float" />
-        <FoodIcon id="cold-coffee" className="absolute right-24 bottom-3 size-16 animate-float [animation-delay:-2s]" />
-        <Cloud className="absolute -left-3 -bottom-8 size-32 -rotate-12" fill="fill-amber" bumps={12}>
+        <FoodIcon id="fries" className="absolute right-3 bottom-6 size-20 sm:size-28 animate-float" />
+        <FoodIcon id="cold-coffee" className="absolute right-20 sm:right-28 bottom-3 size-12 sm:size-16 animate-float [animation-delay:-2s]" />
+        <Cloud className="absolute -left-3 -bottom-8 size-28 sm:size-32 -rotate-12" fill="fill-amber" bumps={12}>
           <p className="font-display text-3xl font-bold leading-none text-neutral-900">0<span className="text-base">min</span></p>
           <p className="text-[10px] font-bold uppercase text-neutral-900">in line</p>
         </Cloud>

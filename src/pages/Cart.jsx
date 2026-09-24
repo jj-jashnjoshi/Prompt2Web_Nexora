@@ -76,7 +76,7 @@ export default function Cart() {
           autoComplete="given-name"
           className="min-w-0 flex-1 h-12 px-5 rounded-full bg-white/10 text-white placeholder:text-white/50 text-base outline-none focus:bg-white/15"
         />
-        <button disabled={!name.trim()} className="h-12 px-6 rounded-full bg-amber text-neutral-900 font-display text-lg font-bold disabled:opacity-40 active:scale-95 transition-transform">
+        <button disabled={!name.trim()} className="h-12 px-5 sm:px-6 shrink-0 rounded-full bg-amber text-neutral-900 font-display text-lg font-bold disabled:opacity-40 active:scale-95 transition-transform">
           Pay ₹{total}
         </button>
       </div>

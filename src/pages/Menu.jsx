@@ -24,7 +24,7 @@ function ItemCard({ m, qty, minsLeft, i }) {
   return (
     <li
       style={{ animationDelay: `${i * 45}ms` }}
-      className={`relative overflow-hidden rounded-[2rem] p-4 flex flex-col animate-rise ${CARD[m.category]} ${m.inStock ? '' : 'grayscale opacity-60'}`}
+      className={`relative min-w-0 overflow-hidden rounded-[2rem] p-3 sm:p-4 flex flex-col animate-rise ${CARD[m.category]} ${m.inStock ? '' : 'grayscale opacity-60'}`}
     >
       <Squiggle className="opacity-10" />
       <div className="relative flex justify-center pt-2">
@@ -37,14 +37,14 @@ function ItemCard({ m, qty, minsLeft, i }) {
         </Cloud>
       )}
 
-      <p className="relative mt-3 font-display text-lg font-bold leading-tight">{m.name}</p>
+      <p className="relative mt-3 font-display text-base sm:text-lg font-bold leading-tight">{m.name}</p>
       <p className={`relative mt-0.5 text-xs font-semibold ${late ? 'underline decoration-2 underline-offset-2' : 'opacity-80'}`}>
         {!m.inStock ? 'Sold out' : ready ? 'No wait' : late ? `~${m.eta} min · after bell` : `~${m.eta} min`}
       </p>
 
-      <div className="relative mt-auto pt-3 flex items-center justify-between">
-        <span className="font-display text-2xl font-bold">₹{m.price}</span>
-        {m.inStock && <Qty qty={qty} onChange={(q) => setQty(m.id, q)} tone="light" />}
+      <div className="relative mt-auto pt-3 flex flex-wrap items-center justify-between gap-2">
+        <span className="font-display text-xl sm:text-2xl font-bold">₹{m.price}</span>
+        {m.inStock && <Qty qty={qty} onChange={(q) => setQty(m.id, q)} tone="light" compact />}
       </div>
 
       {!m.inStock && (
@@ -123,7 +123,7 @@ export default function Menu() {
         ))}
       </nav>
 
-      <ul key={cat} className="mt-3 grid grid-cols-2 md:grid-cols-3 gap-3">
+      <ul key={cat} className="mt-3 grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3">
         {items.map((m, i) => (
           <ItemCard key={m.id} m={m} i={i} qty={s.cart[m.id] || 0} minsLeft={s.minsLeft} />
         ))}
