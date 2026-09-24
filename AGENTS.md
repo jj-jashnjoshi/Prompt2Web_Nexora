@@ -36,10 +36,11 @@ Considered but **dropped** for time: bell-synced cooking (kitchen cooks backward
 
 | Topic | Decision |
 |---|---|
-| Design | **Mobile-first, bold retro fast-food brand** — reference board in `img/`. Cream ground `#f6efdc`, chocolate brown ink `#4a1c13`, red `#e4032e` (CTAs, late), amber `#ffa200` (ready), blue `#0a57a6` (info). Fredoka (display/numbers) + Outfit (body). Big rounded colour blocks, wavy squiggle pattern (`Squiggle`). No emoji, glassmorphism or generic AI-template look. Tailwind `neutral-*` and `white` are remapped to the brown/cream scale in `src/index.css`. |
+| Design | **Mobile-first, bold retro fast-food brand** — reference board in `img/`. Cream ground `#f6efdc`, chocolate brown ink `#4a1c13`, red `#e4032e` (CTAs, late), amber `#ffa200` (ready), blue `#0a57a6` (info). Fredoka (display/numbers) + Outfit (body). Big rounded colour blocks, retro halftone dot pattern (`Halftone`), chunky brown outlines + hard offset shadows (`.ink`, `.ink-shadow`, `.press` in `index.css`), real food photos in `public/food/<id>.jpg` (`FoodPhoto` falls back to the drawn `FoodIcon` when an item has no photo — currently poha, sandwich, lime soda, paneer roll). No emoji, glassmorphism or generic AI-template look. Tailwind `neutral-*` and `white` are remapped to the brown/cream scale in `src/index.css`. |
 | Stack | React + Vite + Tailwind v4 + react-router-dom |
 | Data | All data access goes through `src/data.js` — a **temporary localStorage backend** (cross-tab sync, key `nexkitchen:v2`) so the demo works offline. It starts with a **default demo queue** (`src/seed.js`: a lunch rush in progress + one past order of yours) and an **auto kitchen** (`src/kitchenSim.js`) that cooks orders one at a time per station (1 prep-minute = 5 real seconds), auto-collects campus orders, spawns new ones every 12–25s, and restarts the break when the bell rings. Toggle it on `/kitchen`. **Firestore is live**: shared state (menu, orders, tokens, break timer, auto-kitchen flag) syncs through one document `canteen/live` in project `nexkitchen-5ff9a`; writes go through transactions so tokens never collide. The SDK loads from the gstatic CDN at runtime (`src/firebase.js`, no npm package — the venue hotspot was too slow for npm). If Firebase can't load or is unreachable, the app keeps working on localStorage. Cart and name stay per-device. `USE_FIREBASE` in `src/firebase.js` switches it off. |
 | App name | **NextKitchen** (`APP_NAME` in `src/config.js`; wordmark in `components/Logo.jsx`) |
+| Hosting | Vercel (`vercel.json` rewrites all routes to `index.html` for the SPA) |
 | Repo | https://github.com/jj-jashnjoshi/Prompt2Web_Nexora (local: `~/canteen`) |
 
 ## Screens
@@ -84,6 +85,6 @@ Considered but **dropped** for time: bell-synced cooking (kitchen cooks backward
 - `src/eta.js` — rush-aware logic: `stationLoads`, `itemEta`, `suggestSwap`
 - `src/useStore.js` — React hook exposing state + derived `loads`, `minsLeft`, `cartCount`
 - `src/pages/` — `Home`, `Menu`, `Cart`, `Orders`, `Kitchen`
-- `src/components/` — `Header`, `Qty`, `KitchenPulse` (live per-station wait strip), `Layout` (header + tab bar shell), `TabBar`, `Squiggle` (brand pattern), `Cloud` (scalloped badge), `FoodIcon` (SVG food art per item id), `Marquee`, `Logo`
+- `src/components/` — `Header`, `Qty`, `KitchenPulse` (live per-station wait strip), `Layout` (header + tab bar shell), `TabBar`, `Halftone` (brand dot pattern), `FoodPhoto` (photo with illustration fallback), `Cloud` (scalloped badge), `FoodIcon` (SVG food art per item id), `Marquee`, `Logo`
 
 Run: `npm run dev` → student app at `/`, staff at `/kitchen`. (open in two tabs).

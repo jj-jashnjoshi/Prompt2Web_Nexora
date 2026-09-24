@@ -1,5 +1,5 @@
 import { STATIONS } from '../config'
-import Squiggle from './Squiggle'
+import Halftone from './Halftone'
 
 // Live rush meter: one colour tile per kitchen station. Blue = calm, amber = busy, red = won't make the bell.
 function level(wait, minsLeft) {
@@ -22,8 +22,8 @@ export default function KitchenPulse({ loads, minsLeft }) {
           const wait = Math.ceil(loads[id])
           const lv = level(wait, minsLeft)
           return (
-            <li key={id} className={`relative overflow-hidden rounded-3xl px-2 py-3 text-center transition-colors duration-500 ${lv.bg}`}>
-              <Squiggle className="opacity-15" />
+            <li key={id} className={`relative rounded-3xl px-1.5 py-3 text-center transition-colors duration-500 ink ink-shadow-sm ${lv.bg}`}>
+              <Halftone className="opacity-30" />
               <p className="relative truncate text-[10px] sm:text-[11px] font-semibold uppercase sm:tracking-wide opacity-80">{st.label}</p>
               <p key={wait} className="relative mt-1 font-display text-2xl sm:text-3xl font-bold leading-none animate-pop">
                 {wait}<span className="text-sm">m</span>

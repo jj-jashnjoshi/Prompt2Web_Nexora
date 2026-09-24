@@ -36,7 +36,7 @@ function Tab({ to, label, name, badge, dot, end }) {
 export default function TabBar({ cartCount, hasReady }) {
   return (
     <nav className="fixed inset-x-0 bottom-0 z-20 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
-      <div className="mx-auto max-w-md h-16 p-1.5 flex gap-1 rounded-full bg-neutral-900 shadow-[0_8px_0_0_rgba(74,28,19,0.15)]">
+      <div className="mx-auto max-w-md h-16 p-1.5 flex gap-1 rounded-full bg-neutral-900 ink-shadow">
         <Tab to="/" end label="Home" name="home" />
         <Tab to="/menu" label="Menu" name="menu" />
         <Tab to="/cart" label="Cart" name="cart" badge={cartCount} />

@@ -48,3 +48,10 @@ body { -webkit-font-smoothing: antialiased; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
 }
+
+/* Sticker look: chunky brown outline + hard offset shadow; buttons "press" into the shadow. */
+.ink { border: 2.5px solid var(--color-neutral-900); }
+.ink-shadow { box-shadow: 4px 4px 0 0 var(--color-neutral-900); }
+.ink-shadow-sm { box-shadow: 3px 3px 0 0 var(--color-neutral-900); }
+.press { transition: transform .12s, box-shadow .12s; }
+.press:active { transform: translate(3px, 3px); box-shadow: 0 0 0 0 var(--color-neutral-900); }

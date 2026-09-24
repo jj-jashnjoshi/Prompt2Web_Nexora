@@ -8,9 +8,10 @@ import Layout from '../components/Layout'
 import Qty from '../components/Qty'
 import KitchenPulse from '../components/KitchenPulse'
 import FoodIcon from '../components/FoodIcon'
+import FoodPhoto from '../components/FoodPhoto'
 import Marquee from '../components/Marquee'
 import Cloud from '../components/Cloud'
-import Squiggle from '../components/Squiggle'
+import Halftone from '../components/Halftone'
 
 const CARD = {
   meal: 'bg-red text-white',
@@ -24,25 +25,27 @@ function ItemCard({ m, qty, minsLeft, i }) {
   return (
     <li
       style={{ animationDelay: `${i * 45}ms` }}
-      className={`relative min-w-0 overflow-hidden rounded-[2rem] p-3 sm:p-4 flex flex-col animate-rise ${CARD[m.category]} ${m.inStock ? '' : 'grayscale opacity-60'}`}
+      className={`relative min-w-0 rounded-[1.75rem] p-2 sm:p-2.5 flex flex-col animate-rise ink ink-shadow ${CARD[m.category]} ${m.inStock ? '' : 'grayscale opacity-60'}`}
     >
-      <Squiggle className="opacity-10" />
-      <div className="relative flex justify-center pt-2">
-        <FoodIcon id={m.id} className="size-20 drop-shadow-[0_4px_0_rgba(74,28,19,0.25)]" />
+      <Halftone className="opacity-30" />
+      <div className="relative">
+        <FoodPhoto id={m.id} name={m.name} className="block w-full aspect-[4/3] rounded-[1.25rem] ink" />
+        {m.inStock && (
+          <span className={`absolute left-2 bottom-2 rounded-full px-2.5 py-1 text-[11px] font-bold ink ${ready ? 'bg-amber text-neutral-900' : late ? 'bg-red text-white' : 'bg-white text-neutral-900'}`}>
+            {ready ? 'No wait' : `~${m.eta} min`}
+          </span>
+        )}
+        {m.inStock && ready && (
+          <Cloud className="absolute -right-3 -top-4 size-16 rotate-12 animate-wiggle" fill="fill-white" stroke="stroke-neutral-900" bumps={10}>
+            <span className="block font-display text-[11px] font-bold leading-tight text-neutral-900">READY<br />NOW</span>
+          </Cloud>
+        )}
       </div>
 
-      {m.inStock && ready && (
-        <Cloud className="absolute -right-1 -top-1 size-16 rotate-12 animate-wiggle" fill="fill-white" bumps={10}>
-          <span className="block font-display text-[11px] font-bold leading-tight text-neutral-900">READY<br />NOW</span>
-        </Cloud>
-      )}
+      <p className="relative mt-2.5 px-1 font-display text-base sm:text-lg font-bold leading-tight">{m.name}</p>
+      {late && m.inStock && <p className="relative px-1 text-xs font-semibold underline decoration-2 underline-offset-2">After the bell</p>}
 
-      <p className="relative mt-3 font-display text-base sm:text-lg font-bold leading-tight">{m.name}</p>
-      <p className={`relative mt-0.5 text-xs font-semibold ${late ? 'underline decoration-2 underline-offset-2' : 'opacity-80'}`}>
-        {!m.inStock ? 'Sold out' : ready ? 'No wait' : late ? `~${m.eta} min · after bell` : `~${m.eta} min`}
-      </p>
-
-      <div className="relative mt-auto pt-3 flex flex-wrap items-center justify-between gap-2">
+      <div className="relative mt-auto px-1 pt-2 pb-0.5 flex flex-wrap items-center justify-between gap-2">
         <span className="font-display text-xl sm:text-2xl font-bold">₹{m.price}</span>
         {m.inStock && <Qty qty={qty} onChange={(q) => setQty(m.id, q)} tone="light" compact />}
       </div>
@@ -71,11 +74,11 @@ export default function Menu() {
   const usual = s.myOrders[0]
 
   const cartBar = s.cartCount > 0 && (
-    <Link to="/cart" className="h-16 pl-6 pr-2 rounded-full bg-red text-white flex items-center justify-between shadow-[0_6px_0_0_rgba(74,28,19,0.2)]">
+    <Link to="/cart" className="h-16 pl-6 pr-2 rounded-full bg-red text-white flex items-center justify-between ink ink-shadow press">
       <span className="font-display text-lg font-bold">
         {s.cartCount} item{s.cartCount > 1 ? 's' : ''} · ₹{total}
       </span>
-      <span className="h-12 px-5 rounded-full bg-white text-neutral-900 font-display font-bold grid place-items-center">View cart</span>
+      <span className="h-11 px-5 rounded-full bg-white text-neutral-900 font-display font-bold grid place-items-center ink">View cart</span>
     </Link>
   )
 
@@ -91,11 +94,11 @@ export default function Menu() {
       </h1>
 
       {usual && (
-        <section className="relative mt-5 overflow-hidden flex items-center gap-4 rounded-[2rem] bg-neutral-900 p-4 text-white animate-rise">
+        <section className="relative mt-5 flex items-center gap-4 rounded-[2rem] bg-neutral-900 p-4 text-white animate-rise ink-shadow">
           <div className="flex -space-x-4 shrink-0">
             {usual.items.slice(0, 3).map((i) => (
-              <span key={i.id} className="grid size-12 place-items-center rounded-full bg-white ring-2 ring-neutral-900">
-                <FoodIcon id={i.id} className="size-9" />
+              <span key={i.id} className="size-12 overflow-hidden rounded-full ring-2 ring-amber">
+                <FoodPhoto id={i.id} name={i.name} className="size-full" />
               </span>
             ))}
           </div>
@@ -116,7 +119,7 @@ export default function Menu() {
           <button
             key={c.id}
             onClick={() => setCat(c.id)}
-            className={`h-10 px-5 rounded-full font-display font-semibold shrink-0 transition-colors ${cat === c.id ? 'bg-neutral-900 text-white' : 'bg-neutral-50 text-neutral-700'}`}
+            className={`h-10 px-5 rounded-full font-display font-semibold shrink-0 transition-colors ink ${cat === c.id ? 'bg-neutral-900 text-white' : 'bg-neutral-50 text-neutral-700'}`}
           >
             {c.label}
           </button>

@@ -3,10 +3,11 @@ import { useStore } from '../useStore'
 import { STATUSES, reorder } from '../data'
 import { itemEta } from '../eta'
 import Layout from '../components/Layout'
-import Squiggle from '../components/Squiggle'
+import Halftone from '../components/Halftone'
 import Cloud from '../components/Cloud'
 import Marquee from '../components/Marquee'
 import FoodIcon from '../components/FoodIcon'
+import FoodPhoto from '../components/FoodPhoto'
 
 const LABELS = { placed: 'Placed', preparing: 'Cooking', ready: 'Ready', collected: 'Collected' }
 
@@ -16,12 +17,12 @@ function ActiveOrder({ order, loads }) {
   const eta = Math.max(0, ...order.items.map((i) => itemEta(i, loads)))
 
   return (
-    <li className={`relative overflow-hidden rounded-[2.25rem] animate-rise ${ready ? 'bg-amber' : 'bg-blue text-white'}`}>
+    <li className={`relative overflow-hidden rounded-[2.25rem] animate-rise ink ink-shadow ${ready ? 'bg-amber' : 'bg-blue text-white'}`}>
       {ready && <Marquee items={["It's ready", 'Go grab it', 'Show your token']} className="bg-red text-white" />}
       <div className="relative p-5 sm:p-6">
-        <Squiggle className={ready ? 'text-white/25' : 'text-white/10'} />
+        <Halftone className={ready ? 'text-white/45' : 'text-white/50'} />
         <div className="relative flex items-center gap-4 sm:gap-5">
-          <Cloud className={`size-24 sm:size-32 shrink-0 ${ready ? 'animate-wiggle' : ''}`} fill={ready ? 'fill-red' : 'fill-white'} bumps={12}>
+          <Cloud className={`size-24 sm:size-32 shrink-0 ${ready ? 'animate-wiggle' : ''}`} fill={ready ? 'fill-red' : 'fill-white'} stroke="stroke-neutral-900" bumps={12}>
             <p className={`text-[10px] font-bold uppercase tracking-widest ${ready ? 'text-white/80' : 'text-neutral-500'}`}>Token</p>
             <p className={`font-display text-2xl sm:text-3xl font-bold leading-none ${ready ? 'text-white' : 'text-neutral-900'}`}>{order.token}</p>
           </Cloud>
@@ -49,8 +50,8 @@ function ActiveOrder({ order, loads }) {
 
         <div className="relative mt-5 flex flex-wrap items-center gap-2">
           {order.items.map((i) => (
-            <span key={i.id} className="flex items-center gap-1 rounded-full bg-white py-1 pl-1 pr-3 text-xs font-semibold text-neutral-900">
-              <FoodIcon id={i.id} className="size-6" /> {i.qty}× {i.name}
+            <span key={i.id} className="flex items-center gap-1.5 rounded-full bg-white py-1 pl-1 pr-3 text-xs font-semibold text-neutral-900 ink">
+              <FoodPhoto id={i.id} name={i.name} className="size-6 rounded-full" /> {i.qty}× {i.name}
             </span>
           ))}
         </div>
@@ -98,11 +99,11 @@ export default function Orders() {
           <h2 className="mt-10 font-display text-lg font-bold">Eaten before</h2>
           <ul className="mt-3 space-y-2">
             {past.map((o) => (
-              <li key={o.id} className="flex items-center gap-3 rounded-full bg-neutral-50 p-2 pl-3">
+              <li key={o.id} className="flex items-center gap-3 rounded-full bg-neutral-50 p-2 pl-3 ink">
                 <div className="flex -space-x-3 shrink-0">
                   {o.items.slice(0, 3).map((i) => (
-                    <span key={i.id} className="grid size-10 place-items-center rounded-full bg-white ring-2 ring-neutral-50">
-                      <FoodIcon id={i.id} className="size-7" />
+                    <span key={i.id} className="size-10 overflow-hidden rounded-full ring-2 ring-neutral-50">
+                      <FoodPhoto id={i.id} name={i.name} className="size-full" />
                     </span>
                   ))}
                 </div>
