@@ -1,4 +1,4 @@
-export const APP_NAME = 'NextKitchen'
+export const APP_NAME = 'NexKitchen'
 
 // Cooks working at each station. ETA = queued work / cooks + own prep time.
 export const STATIONS = {
