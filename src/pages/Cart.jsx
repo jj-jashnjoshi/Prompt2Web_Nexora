@@ -15,6 +15,7 @@ export default function Cart() {
   const nav = useNavigate()
   const [name, setName] = useState(s.name)
   const [paid, setPaid] = useState(null)
+  const [busy, setBusy] = useState(false)
 
   const lines = Object.entries(s.cart).map(([id, qty]) => {
     const m = s.menu.find((x) => x.id === id)
@@ -26,10 +27,12 @@ export default function Cart() {
   const readyIn = Math.max(0, ...lines.map((l) => l.eta))
   const makesBell = readyIn <= s.minsLeft
 
-  function checkout(e) {
+  async function checkout(e) {
     e.preventDefault()
-    if (!name.trim()) return
-    const order = placeOrder(name)
+    if (!name.trim() || busy) return
+    setBusy(true)
+    const order = await placeOrder(name)
+    setBusy(false)
     if (!order) return
     setPaid(order)
     setTimeout(() => nav('/orders'), 1600)
@@ -76,7 +79,7 @@ export default function Cart() {
           autoComplete="given-name"
           className="min-w-0 flex-1 h-12 px-5 rounded-full bg-white/10 text-white placeholder:text-white/50 text-base outline-none focus:bg-white/15"
         />
-        <button disabled={!name.trim()} className="h-12 px-5 sm:px-6 shrink-0 rounded-full bg-amber text-neutral-900 font-display text-lg font-bold disabled:opacity-40 active:scale-95 transition-transform">
+        <button disabled={!name.trim() || busy} className="h-12 px-5 sm:px-6 shrink-0 rounded-full bg-amber text-neutral-900 font-display text-lg font-bold disabled:opacity-40 active:scale-95 transition-transform">
           Pay ₹{total}
         </button>
       </div>
