@@ -11,8 +11,12 @@ export function useStore() {
     const t = setInterval(() => setNow(Date.now()), 15000)
     return () => clearInterval(t)
   }, [])
+  // Orders placed from this device (demo rush orders are excluded).
+  const myOrders = state.orders.filter((o) => !o.simulated).sort((a, b) => b.createdAt - a.createdAt)
   return {
     ...state,
+    myOrders,
+    hasReady: myOrders.some((o) => o.status === 'ready'),
     loads: stationLoads(state.orders),
     minsLeft: minsLeft(state.breakEndsAt, now),
     cartCount: Object.values(state.cart).reduce((a, b) => a + b, 0),

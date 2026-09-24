@@ -12,7 +12,7 @@ export default function Kitchen() {
     <div className="min-h-dvh">
       <header className="border-b border-neutral-100">
         <div className="mx-auto max-w-5xl px-5 h-14 flex items-center justify-between">
-          <span className="font-semibold tracking-tight">{APP_NAME} · Kitchen</span>
+          <span className="font-display text-xl font-bold tracking-tight"><span className="text-red">{APP_NAME}</span> Kitchen</span>
           <span className="text-xs text-neutral-500">Break ends in <span className="font-mono text-neutral-900">{s.minsLeft}m</span></span>
         </div>
       </header>

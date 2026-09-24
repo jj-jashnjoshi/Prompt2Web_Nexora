@@ -15,13 +15,15 @@ function initial() {
     cart: {},
     nextToken: 1,
     breakEndsAt: Date.now() + DEFAULT_BREAK_MINS * 60000,
+    name: '',
+    seenIntro: false,
   }
 }
 
 function read() {
   try {
     const raw = localStorage.getItem(KEY)
-    if (raw) return JSON.parse(raw)
+    if (raw) return { ...initial(), ...JSON.parse(raw) }
   } catch {}
   return initial()
 }
@@ -63,8 +65,22 @@ export function swapItem(fromId, toId) {
   write({ ...state, cart })
 }
 
+export function markIntroSeen() {
+  write({ ...state, seenIntro: true })
+}
+
 // Orders
-export function placeOrder() {
+
+// Put a previous order's (in-stock) items back in the cart.
+export function reorder(order) {
+  const cart = {}
+  for (const i of order.items) {
+    if (state.menu.find((m) => m.id === i.id)?.inStock) cart[i.id] = i.qty
+  }
+  write({ ...state, cart })
+}
+
+export function placeOrder(name = '') {
   const items = Object.entries(state.cart).map(([id, qty]) => {
     const m = state.menu.find((x) => x.id === id)
     return { id, name: m.name, price: m.price, station: m.station, prepMins: m.prepMins, qty }
@@ -75,10 +91,11 @@ export function placeOrder() {
     token: 'A-' + String(state.nextToken).padStart(3, '0'),
     items,
     total: items.reduce((s, i) => s + i.price * i.qty, 0),
+    name: name.trim(),
     status: 'placed',
     createdAt: Date.now(),
   }
-  write({ ...state, orders: [...state.orders, order], cart: {}, nextToken: state.nextToken + 1 })
+  write({ ...state, orders: [...state.orders, order], cart: {}, name: name.trim(), nextToken: state.nextToken + 1 })
   return order
 }
 

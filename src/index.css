@@ -1,10 +1,32 @@
 @import "tailwindcss";
 
+/* Brand theme (see img/): cream ground, chocolate brown ink, red / amber / blue blocks.
+   The neutral scale is remapped cream → brown so every neutral-* utility is on-brand. */
 @theme {
-  --color-accent: #ff5a1f;
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-white: #f6efdc;
+  --color-neutral-50: #efe5cb;
+  --color-neutral-100: #e7dbbd;
+  --color-neutral-200: #dac9a4;
+  --color-neutral-300: #c4ab83;
+  --color-neutral-400: #a88b69;
+  --color-neutral-500: #8a6c55;
+  --color-neutral-600: #6d4c3c;
+  --color-neutral-700: #5a3629;
+  --color-neutral-800: #4f271c;
+  --color-neutral-900: #4a1c13;
+  --color-neutral-950: #36130c;
+
+  --color-accent: #e4032e;
+  --color-red: #e4032e;
+  --color-amber: #ffa200;
+  --color-blue: #0a57a6;
+
+  --font-sans: "Outfit", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Fredoka", "Outfit", ui-rounded, system-ui, sans-serif;
+  --font-mono: "Fredoka", "Outfit", ui-rounded, system-ui, sans-serif;
 }
 
-html, body { background: #fff; color: #0a0a0a; }
+html, body { background: var(--color-white); color: var(--color-neutral-900); }
 body { -webkit-font-smoothing: antialiased; }
+.font-mono { font-variant-numeric: tabular-nums; font-weight: 600; }
+.outline-text { color: transparent; -webkit-text-stroke: 1.5px currentColor; }

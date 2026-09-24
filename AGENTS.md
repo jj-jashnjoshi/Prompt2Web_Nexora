@@ -36,7 +36,7 @@ Considered but **dropped** for time: bell-synced cooking (kitchen cooks backward
 
 | Topic | Decision |
 |---|---|
-| Design | **Extremely clean, minimal, mobile-first.** White bg, black text, one accent. No gradients, glassmorphism, emoji icons, or generic "Welcome 🚀" heroes. Must not look AI-generated. |
+| Design | **Mobile-first, bold retro fast-food brand** — reference board in `img/`. Cream ground `#f6efdc`, chocolate brown ink `#4a1c13`, red `#e4032e` (CTAs, late), amber `#ffa200` (ready), blue `#0a57a6` (info). Fredoka (display/numbers) + Outfit (body). Big rounded colour blocks, wavy squiggle pattern (`Squiggle`). No emoji, glassmorphism or generic AI-template look. Tailwind `neutral-*` and `white` are remapped to the brown/cream scale in `src/index.css`. |
 | Stack | React + Vite + Tailwind v4 + react-router-dom |
 | Data | All data access goes through `src/data.js`. Runs on `localStorage` (+ cross-tab sync) now so the demo works offline; Firebase to be plugged in later by the backend teammate. Schema/contract **still to be agreed**. |
 | App name | Placeholder "Canteen" in `src/config.js` — final name TBD |
@@ -44,10 +44,13 @@ Considered but **dropped** for time: bell-synced cooking (kitchen cooks backward
 
 ## Screens
 
-- `/` — Menu (student, mobile): items with live ETA, "Ready now" tags, add to cart
-- `/cart` — Cart with swap suggestions, place order
-- `/order/:id` — Token + live status (Placed → Preparing → Ready → Collected)
-- `/kitchen` — Staff view: advance order status, toggle out-of-stock, demo controls (simulate rush, set break time left)
+4 student pages with a bottom tab bar (Menu · Cart · Orders). No login — student types their name once at checkout.
+
+- `/` — Landing: shown on first visit only, then redirects to `/menu`
+- `/menu` — Menu: "Your usual" one-tap reorder, live kitchen strip, category tabs, items sorted fastest-first with live ETA / "Ready now"
+- `/cart` — Cart: swap suggestions, name field, one-tap Pay → "Paid ✓" → `/orders`
+- `/orders` — My Orders: active tokens with live status (amber card when ready, dot on the tab), past orders with "Again"
+- `/kitchen` — Hidden staff/demo view (not linked): advance order status, toggle out-of-stock, demo controls (simulate rush, set break time left)
 
 ## Demo script (~90s)
 
@@ -55,7 +58,7 @@ Considered but **dropped** for time: bell-synced cooking (kitchen cooks backward
 2. Kitchen tab: simulate a rush on the tawa station.
 3. Student tab: dosa ETA jumps to ~14 min; sandwich shows "Ready now".
 4. Add dosa → cart warns it won't be ready before the bell → tap Swap.
-5. Place order → token → kitchen marks Ready → student screen updates live.
+5. Enter name, Pay → token on Orders → kitchen marks Ready → token card turns amber and the Orders tab shows a dot.
 
 ## Likely judge questions
 
@@ -68,7 +71,7 @@ Considered but **dropped** for time: bell-synced cooking (kitchen cooks backward
 
 - Keep files small and separated so the surprise feature can be added fast.
 - Never call storage directly from components — use `src/data.js`.
-- Keep the visual language minimal; don't add colors, shadows, or decorative UI.
+- Stay within the brand palette and fonts above; don't introduce new colours.
 
 ## Code map
 
@@ -77,7 +80,7 @@ Considered but **dropped** for time: bell-synced cooking (kitchen cooks backward
 - `src/data.js` — the only data layer (localStorage + BroadcastChannel sync). Replace internals with Firebase here.
 - `src/eta.js` — rush-aware logic: `stationLoads`, `itemEta`, `suggestSwap`
 - `src/useStore.js` — React hook exposing state + derived `loads`, `minsLeft`, `cartCount`
-- `src/pages/` — `Menu`, `Cart`, `Order`, `Kitchen`
-- `src/components/` — `Header`, `Qty`, `Eta`, `KitchenPulse` (live per-station wait strip on the menu)
+- `src/pages/` — `Landing`, `Menu`, `Cart`, `Orders`, `Kitchen`
+- `src/components/` — `Header`, `Qty`, `Eta`, `KitchenPulse` (live per-station wait strip), `Layout` (header + tab bar shell), `TabBar`, `Squiggle` (brand pattern)
 
-Run: `npm run dev` → student app at `/`, staff at `/kitchen` (open in two tabs).
+Run: `npm run dev` → student app at `/`, staff at `/kitchen`. "Reset everything" on `/kitchen` also re-shows the landing page (open in two tabs).
