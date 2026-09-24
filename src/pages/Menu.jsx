@@ -7,6 +7,7 @@ import { CATEGORIES } from '../menu'
 import Header from '../components/Header'
 import Qty from '../components/Qty'
 import Eta from '../components/Eta'
+import KitchenPulse from '../components/KitchenPulse'
 
 export default function Menu() {
   const s = useStore()
@@ -31,6 +32,8 @@ export default function Menu() {
         <p className="mt-2 text-sm text-neutral-500">
           Times update live with the kitchen. {readyCount} items ready now.
         </p>
+
+        <KitchenPulse loads={s.loads} minsLeft={s.minsLeft} />
 
         <nav className="mt-6 -mx-5 px-5 flex gap-2 overflow-x-auto">
           {CATEGORIES.map((c) => (

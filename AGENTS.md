@@ -78,6 +78,6 @@ Considered but **dropped** for time: bell-synced cooking (kitchen cooks backward
 - `src/eta.js` — rush-aware logic: `stationLoads`, `itemEta`, `suggestSwap`
 - `src/useStore.js` — React hook exposing state + derived `loads`, `minsLeft`, `cartCount`
 - `src/pages/` — `Menu`, `Cart`, `Order`, `Kitchen`
-- `src/components/` — `Header`, `Qty`, `Eta`
+- `src/components/` — `Header`, `Qty`, `Eta`, `KitchenPulse` (live per-station wait strip on the menu)
 
 Run: `npm run dev` → student app at `/`, staff at `/kitchen` (open in two tabs).
